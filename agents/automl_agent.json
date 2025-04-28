@@ -1,0 +1,34 @@
+{
+  "id": "automl.v1",
+  "name": "AutoMLAgent",
+  "description": "Runs DataRobot AutoML projects on provided data.",
+  "capabilities": [
+    {
+      "name": "run_automl",
+      "description": "Initiates a DataRobot project and runs Autopilot.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "processed_data_path": {
+            "type": "string",
+            "description": "Local or accessible path to the processed dataset file."
+          },
+          "target_feature": {
+            "type": "string",
+            "description": "The name of the target variable for modeling."
+          }
+        },
+        "required": ["processed_data_path", "target_feature"]
+      },
+       "output_schema": {
+           "type": "object",
+           "properties": {
+               "project_id": {"type": "string"},
+               "champion_model_id": {"type": "string"}
+           }
+       }
+    }
+  ],
+  "endpoint": "http://localhost:8002/call", # Conceptual endpoint
+  "auth": "bearer" # DataRobot API key authentication concept
+}

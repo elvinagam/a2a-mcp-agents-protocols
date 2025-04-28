@@ -1,0 +1,82 @@
+{
+  "action_manifest": {
+    "openapi_version": "3.0.0",
+    "info": {
+      "title": "DataRobot AutoML Action Manifest",
+      "version": "1.0.0",
+      "description": "Actions for interacting with DataRobot's AutoML capabilities."
+    },
+    "servers": [
+      {
+        "url": "https://app.datarobot.com/api/v2"
+      }
+    ],
+    "paths": {
+      "/projects/": {
+        "post": {
+          "operation_id": "createProject",
+          "summary": "Create a new DataRobot project from a dataset.",
+          "request_body": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "dataset_id": {
+                      "type": "string",
+                      "description": "The ID of the uploaded dataset."
+                    },
+                    "project_name": {
+                      "type": "string",
+                      "description": "Name for the new project."
+                    },
+                    "target": {
+                      "type": "string",
+                      "description": "The target variable for modeling."
+                    }
+                    // ... other relevant project creation parameters
+                  },
+                  "required": ["dataset_id", "project_name", "target"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Project created successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" }
+                      // ... other project details
+                    }
+                  }
+                }
+              }
+            }
+            // ... error responses
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ]
+        }
+      }
+      // ... Add paths for /projects/{projectId}/autopilots, /models, /deployments, etc.
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT" // Or whatever auth DataRobot uses - API key simulation
+        }
+      }
+    }
+  }
+}
