@@ -1,4 +1,5 @@
 # Simulate Agent Card discovery
+import time
 agent_cards = {
     "datarep.v1": {
         "id": "datarep.v1",

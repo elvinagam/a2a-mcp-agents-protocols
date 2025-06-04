@@ -1,6 +1,7 @@
 # agents/automl_agent/agent.py
 import time
 import os
+import json
 import datarobot as dr
 # Ensure your DATAROBOT_API_TOKEN and DATAROBOT_ENDPOINT env vars are set
 
@@ -8,25 +9,39 @@ import datarobot as dr
 try:
     from a2a_utils import TaskStatus, send_a2a_message
 except ImportError:
-     # Fallback
-     class TaskStatus:
+    # Fallback
+    class TaskStatus:
         SUBMITTED = "submitted"
         WORKING = "working"
         INPUT_REQUIRED = "input-required"
         COMPLETED = "completed"
         FAILED = "failed"
         CANCELED = "canceled"
-     TaskStatus = type('TaskStatus', (object,), {k:k.lower() for k in ['SUBMITTED', 'WORKING', 'INPUT_REQUIRED', 'COMPLETED', 'FAILED', 'CANCELED']})()
 
-     # Dummy send_a2a_message if a2a_utils not fully available
-    # sender_id -> id of previous agent (e.g. dataprepagent) 
+    TaskStatus = type(
+        "TaskStatus",
+        (object,),
+        {k: k.lower() for k in [
+            "SUBMITTED",
+            "WORKING",
+            "INPUT_REQUIRED",
+            "COMPLETED",
+            "FAILED",
+            "CANCELED",
+        ]},
+    )()
+
+    # Dummy send_a2a_message if a2a_utils not fully available
+    # sender_id -> id of previous agent (e.g. dataprepagent)
     # receiver_id -> id of the current agent (e.g. auto_ml_agent)
     def send_a2a_message(sender_id, receiver_id, verb, payload, task_id=None):
-         print(f"\n[SIM A2A - Dummy] {sender_id} -> {receiver_id} ({verb}) | Task: {task_id or 'New'}")
-         print(f"  Payload: {json.dumps(payload, indent=2)}")
-         # In a real setup, this would route to the receiver's agent.py
-         # For this dummy, it just prints.
-         pass
+        print(
+            f"\n[SIM A2A - Dummy] {sender_id} -> {receiver_id} ({verb}) | Task: {task_id or 'New'}"
+        )
+        print(f"  Payload: {json.dumps(payload, indent=2)}")
+        # In a real setup, this would route to the receiver's agent.py
+        # For this dummy, it just prints.
+        pass
 
 
 # Simple in-memory task status tracking
